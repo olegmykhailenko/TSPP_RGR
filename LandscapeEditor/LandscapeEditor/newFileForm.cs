@@ -10,17 +10,16 @@ using System.Windows.Forms;
 
 namespace LandscapeEditor
 {
-    public partial class Form1 : Form
+    public partial class newFileForm : Form
     {
-        public Form1()
+        public newFileForm()
         {
             InitializeComponent();
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            newFileForm aForm = new newFileForm();
-            aForm.ShowDialog();
+            this.Close();
         }
     }
 }
