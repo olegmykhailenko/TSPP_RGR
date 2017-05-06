@@ -54,6 +54,7 @@ namespace LandscapeEditor
         private void label3_Click(object sender, EventArgs e)
         {
             SignUpForm aForm = new SignUpForm(this);
+            aForm.StartPosition = FormStartPosition.CenterParent;
             aForm.ShowDialog();
         }
 

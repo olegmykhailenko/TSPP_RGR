@@ -12,9 +12,56 @@ namespace LandscapeEditor
 {
     public partial class MainForm : Form
     {
+        private int cellSize;
+        private int lineWidth;
+
         public MainForm()
         {
+            cellSize = 100;
+            lineWidth = 5;
             InitializeComponent();
+        }
+
+        public bool isContainMap()
+        {
+            if (map.Visible)
+                return true;
+            else
+                return false;
+        }
+
+        public void createNewMap(string name, int width, int height)
+        {
+            map.Controls.Clear();
+            //map.Location = new Point(0, 0);
+            map.Image = new Bitmap(@"..\..\Images\texture1.jpg");
+            map.SizeMode = PictureBoxSizeMode.StretchImage;
+            map.Size = new Size(width * cellSize, height * cellSize);
+            map.Visible = true;
+            PictureBox[] lines = new PictureBox[width + height - 2];
+            
+            for(int i = 0; i < width - 1; i++)
+            {
+                lines[i] = new PictureBox();
+                lines[i].Location = new Point(map.Location.X + cellSize * (i + 1), map.Location.Y);
+                lines[i].Height = height * cellSize;
+                lines[i].Width = lineWidth;
+                lines[i].Image = new Bitmap(@"..\..\Images\line1.jpg");
+                lines[i].SizeMode = PictureBoxSizeMode.StretchImage;
+                lines[i].Visible = true;
+                map.Controls.Add(lines[i]);
+            }
+            for (int i = width - 1; i < width + height - 2; i++)
+            {
+                lines[i] = new PictureBox();
+                lines[i].Location = new Point(map.Location.X, map.Location.Y + cellSize * (i - width + 2));
+                lines[i].Height = lineWidth;
+                lines[i].Width = width * cellSize;
+                lines[i].Image = new Bitmap(@"..\..\Images\line1.jpg");
+                lines[i].SizeMode = PictureBoxSizeMode.StretchImage;
+                lines[i].Visible = true;
+                map.Controls.Add(lines[i]);
+            }
         }
 
         public void setUser(string name)
@@ -25,7 +72,8 @@ namespace LandscapeEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            newFileForm aForm = new newFileForm();
+            newFileForm aForm = new newFileForm(this);
+            aForm.StartPosition = FormStartPosition.CenterParent;
             aForm.ShowDialog();
         }
 
@@ -37,6 +85,7 @@ namespace LandscapeEditor
         private void label1_Click(object sender, EventArgs e)               //sign in
         {
             SignInForm aForm = new SignInForm(this);
+            aForm.StartPosition = FormStartPosition.CenterParent;
             aForm.ShowDialog();
 
         }
@@ -61,6 +110,11 @@ namespace LandscapeEditor
             {
                 string FileName = saveFileDialog.FileName;
             }
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+
         }
     }
 }
