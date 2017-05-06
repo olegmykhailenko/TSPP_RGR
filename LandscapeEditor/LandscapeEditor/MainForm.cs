@@ -20,6 +20,7 @@ namespace LandscapeEditor
         public void setUser(string name)
         {
             label1.Text = name;
+            label1.Location = new Point(Convert.ToInt32(Math.Ceiling(this.Width - 0.04 * this.Width - label1.Width)), label1.Location.Y);
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -33,7 +34,7 @@ namespace LandscapeEditor
             this.Close();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)               //sign in
         {
             SignInForm aForm = new SignInForm(this);
             aForm.ShowDialog();

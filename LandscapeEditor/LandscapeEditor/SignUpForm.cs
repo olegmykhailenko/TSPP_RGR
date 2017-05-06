@@ -12,45 +12,67 @@ namespace LandscapeEditor
 {
     public partial class SignUpForm : Form
     {
-        public SignUpForm()
+        SignInForm parentSignInForm;
+
+        public SignUpForm(SignInForm signInForm)
         {
+            parentSignInForm = signInForm;
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        //private void ereiseEmpty()
+        //{
+        //    List<string> users = System.IO.File.ReadAllLines("users.txt").ToList<string>();
+        //    foreach(string user in users)
+        //    {
+        //        if(user)
+        //    }
+        //}
+
+        private void button1_Click(object sender, EventArgs e)  //sign up confirm
         {
             string name = nameTextBox.Text;
             string email = emailTextBox.Text;
             string password = passwordTextBox.Text;
-            if (name != null && email != null && password != null)
+            System.Text.RegularExpressions.Regex emailRegex = new System.Text.RegularExpressions.Regex(@".+@.+\..+");
+            //emailRegex.IsMatch(email);
+            if (name != "" && email != "" && password != "" && emailRegex.IsMatch(email))          //all fields filled
             {
                 bool flag = false;
-                try {
-                        string[] users = System.IO.File.ReadAllLines("users.txt");
-                        foreach (string userData in users)
+                try
+                {
+                    string[] users = System.IO.File.ReadAllLines("users.txt");      //try search user in file
+                    foreach (string userData in users)
+                    {
+                        if (userData != "")         //if user is not empty string
                         {
                             string[] user = userData.Split(' ');
-                            if (user[0] == name || user[1] == password)
-                                flag = true;
+                            if (user[0] == name || user[2] == email)
+                                flag = true;                            //user already exists
                         }
                     }
+                }
                 catch (System.IO.FileNotFoundException)
                 {
                     flag = false;
                 }
 
 
-
-
-                string line = name + " " + email + " " + password;
-                using(System.IO.StreamWriter file = new System.IO.StreamWriter("users.txt", true))
+                if (!flag)              //if data is unique
                 {
-                    file.WriteLine(line);
+                    string line = name + " " + email + " " + password;
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter("users.txt", true))
+                    {
+                        file.WriteLine(line);       //append data to file
+                        parentSignInForm.autoSignIn(name, password, email);
+                    }
+                    this.Close();
                 }
-                this.Close();
+                else
+                    MessageBox.Show("This user already exists!");
             }
             else
-                MessageBox.Show("Enter data first!");
+                MessageBox.Show("Check your data again");
         }
     }
 }
