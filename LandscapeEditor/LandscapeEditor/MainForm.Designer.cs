@@ -295,6 +295,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(60, 60);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
             // panel2
             // 
@@ -317,6 +318,7 @@
             this.map.TabIndex = 0;
             this.map.TabStop = false;
             this.map.Visible = false;
+            this.map.MouseClick += new System.Windows.Forms.MouseEventHandler(this.map_MouseClick);
             // 
             // MainForm
             // 

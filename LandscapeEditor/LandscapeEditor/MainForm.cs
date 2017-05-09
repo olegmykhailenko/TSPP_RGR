@@ -15,10 +15,13 @@ namespace LandscapeEditor
         private int cellSize;
         private int lineWidth;
 
+        Tool currentTool;
+
         public MainForm()
         {
             cellSize = 100;
             lineWidth = 5;
+            currentTool = null;
             InitializeComponent();
         }
 
@@ -32,6 +35,7 @@ namespace LandscapeEditor
 
         public void createNewMap(string name, int width, int height)
         {
+            currentTool = null;
             map.Controls.Clear();
             //map.Location = new Point(0, 0);
             map.Image = new Bitmap(@"..\..\Images\texture1.jpg");
@@ -64,6 +68,20 @@ namespace LandscapeEditor
             }
         }
 
+        public void createNewMapObject(Control newObject, Point newPoint)
+        {
+            if (this.isContainMap())
+            {
+                newPoint = new Point(Math.Abs(map.Location.X) + newPoint.X, 
+                    Math.Abs(map.Location.Y) + newPoint.Y - this.menuStrip1.Height);
+                newObject.Location = new Point(newPoint.X - (newPoint.X % cellSize), 
+                    newPoint.Y - (newPoint.Y % cellSize));
+                newObject.Height = cellSize;
+                newObject.Width = cellSize;
+                map.Controls.Add(newObject);
+            }
+        }
+
         public void setUser(string name)
         {
             label1.Text = name;
@@ -72,6 +90,7 @@ namespace LandscapeEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            currentTool = null;
             newFileForm aForm = new newFileForm(this);
             aForm.StartPosition = FormStartPosition.CenterParent;
             aForm.ShowDialog();
@@ -84,6 +103,7 @@ namespace LandscapeEditor
 
         private void label1_Click(object sender, EventArgs e)               //sign in
         {
+            currentTool = null;
             SignInForm aForm = new SignInForm(this);
             aForm.StartPosition = FormStartPosition.CenterParent;
             aForm.ShowDialog();
@@ -92,6 +112,7 @@ namespace LandscapeEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            currentTool = null;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             openFileDialog.Filter = "Landscape Designer Files (*.ld)|*.ld|All Files (*.*)|*.*";
@@ -103,6 +124,7 @@ namespace LandscapeEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            currentTool = null;
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             saveFileDialog.Filter = "Landscape Designer Files (*.ld)|*.ld|All Files (*.*)|*.*";
@@ -114,7 +136,29 @@ namespace LandscapeEditor
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
+            //TODO
+        }
 
+        private void map_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (currentTool !=  null)
+            {
+                this.createNewMapObject(currentTool.createObject(), this.PointToClient(Cursor.Position));
+            }
+        }
+
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (currentTool == null)
+            {
+                currentTool = new Tool(pictureBox1.Image);
+                this.Controls.Add(currentTool);
+            }
+            else
+            {
+                currentTool.Dispose();
+                currentTool = null;
+            }
         }
     }
 }
