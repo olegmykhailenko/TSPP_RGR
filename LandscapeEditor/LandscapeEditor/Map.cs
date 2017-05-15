@@ -10,13 +10,11 @@ namespace LandscapeEditor
 {
     class Map : PictureBox
     {
-        private static readonly Map instance = new Map();
-
+        private static Map instance;
         public static Map Instance
         {
-            get { return instance; }
+            get { return instance ?? (instance = new Map()); }
         }
-        
         protected Map() { }
     }
 }
