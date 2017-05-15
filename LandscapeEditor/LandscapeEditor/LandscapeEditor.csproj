@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractTool.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BucketTool.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,7 +81,7 @@
     <Compile Include="SignUpForm.Designer.cs">
       <DependentUpon>SignUpForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tool.cs">
+    <Compile Include="ObjectTool.cs">
       <SubType>Component</SubType>
     </Compile>
     <EmbeddedResource Include="MainForm.resx">
@@ -118,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Images\paint_bucket.png" />
     <None Include="Images\tree1.png" />
     <None Include="Images\texture1.jpg" />
   </ItemGroup>

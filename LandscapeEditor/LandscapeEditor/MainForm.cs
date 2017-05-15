@@ -15,7 +15,7 @@ namespace LandscapeEditor
         private int cellSize;
         private int lineWidth;
 
-        Tool currentTool;
+        AbstractTool currentTool;
 
         public MainForm()
         {
@@ -31,6 +31,16 @@ namespace LandscapeEditor
                 return true;
             else
                 return false;
+        }
+
+        public int numberOfLines()
+        {
+            if (isContainMap())
+            {
+                return ((map.Width + map.Height) / cellSize) - 2;
+            }
+            else
+                return 0;
         }
 
         public void createNewMap(string name, int width, int height)
@@ -78,7 +88,21 @@ namespace LandscapeEditor
                     newPoint.Y - (newPoint.Y % cellSize));
                 newObject.Height = cellSize;
                 newObject.Width = cellSize;
+                newObject.MouseClick += map_MouseClick;
                 map.Controls.Add(newObject);
+                foreach (Control c in map.Controls)
+                {
+                    if (map.Controls.GetChildIndex(c) >= numberOfLines()        //lines always on the top
+                        && c.Location == newObject.Location                     //objects have same location
+                        && map.Controls.GetChildIndex(c) != map.Controls.GetChildIndex(newObject))  //objects are not the same
+                    {
+                        if(newObject.BackColor == Color.Transparent)    //if new object has no backcolor
+                            newObject.BackColor = c.BackColor;          //copy it from previous object
+                        c.Dispose();                                    //and delete previous object
+
+                        
+                    }
+                }
             }
         }
 
@@ -143,7 +167,7 @@ namespace LandscapeEditor
         {
             if (currentTool !=  null)
             {
-                this.createNewMapObject(currentTool.createObject(), this.PointToClient(Cursor.Position));
+                this.createNewMapObject(currentTool.FactoryMethod(), this.PointToClient(Cursor.Position));
             }
         }
 
@@ -151,7 +175,7 @@ namespace LandscapeEditor
         {
             if (currentTool == null)
             {
-                currentTool = new Tool(pictureBox1.Image);
+                currentTool = new ObjectTool(pictureBox1.Image);
                 this.Controls.Add(currentTool);
             }
             else
@@ -159,6 +183,21 @@ namespace LandscapeEditor
                 currentTool.Dispose();
                 currentTool = null;
             }
+        }
+
+        private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (currentTool == null)
+            {
+                currentTool = new BucketTool(pictureBox1.Image);
+                this.Controls.Add(currentTool);
+            }
+            else
+            {
+                currentTool.Dispose();
+                currentTool = null;
+            }
+
         }
     }
 }
