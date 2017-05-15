@@ -16,13 +16,20 @@ namespace LandscapeEditor
         private int lineWidth;
 
         AbstractTool currentTool;
+        Map map;
 
         public MainForm()
         {
             cellSize = 100;
             lineWidth = 5;
             currentTool = null;
+            map = Map.Instance;
+            map.Location = new Point(0, 0);
+            map.BackColor = Color.Green;
+            map.Visible = false;
+            map.MouseClick += map_MouseClick;
             InitializeComponent();
+            panel2.Controls.Add(map);
         }
 
         public bool isContainMap()
@@ -47,9 +54,8 @@ namespace LandscapeEditor
         {
             currentTool = null;
             map.Controls.Clear();
-            //map.Location = new Point(0, 0);
-            map.Image = new Bitmap(@"..\..\Images\texture1.jpg");
-            map.SizeMode = PictureBoxSizeMode.StretchImage;
+            //map.Image = new Bitmap(@"..\..\Images\texture1.jpg");
+            //map.SizeMode = PictureBoxSizeMode.StretchImage;
             map.Size = new Size(width * cellSize, height * cellSize);
             map.Visible = true;
             PictureBox[] lines = new PictureBox[width + height - 2];
@@ -60,8 +66,9 @@ namespace LandscapeEditor
                 lines[i].Location = new Point(map.Location.X + cellSize * (i + 1), map.Location.Y);
                 lines[i].Height = height * cellSize;
                 lines[i].Width = lineWidth;
-                lines[i].Image = new Bitmap(@"..\..\Images\line1.jpg");
-                lines[i].SizeMode = PictureBoxSizeMode.StretchImage;
+                lines[i].BackColor = Color.Black;
+                //lines[i].Image = new Bitmap(@"..\..\Images\line1.jpg");
+                //lines[i].SizeMode = PictureBoxSizeMode.StretchImage;
                 lines[i].Visible = true;
                 map.Controls.Add(lines[i]);
             }
@@ -71,8 +78,9 @@ namespace LandscapeEditor
                 lines[i].Location = new Point(map.Location.X, map.Location.Y + cellSize * (i - width + 2));
                 lines[i].Height = lineWidth;
                 lines[i].Width = width * cellSize;
-                lines[i].Image = new Bitmap(@"..\..\Images\line1.jpg");
-                lines[i].SizeMode = PictureBoxSizeMode.StretchImage;
+                lines[i].BackColor = Color.Black;
+                //lines[i].Image = new Bitmap(@"..\..\Images\line1.jpg");
+                //lines[i].SizeMode = PictureBoxSizeMode.StretchImage;
                 lines[i].Visible = true;
                 map.Controls.Add(lines[i]);
             }
