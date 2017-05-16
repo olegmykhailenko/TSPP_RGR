@@ -25,7 +25,7 @@ namespace LandscapeEditor
             currentTool = null;
             map = Map.Instance;
             map.Location = new Point(0, 0);
-            map.BackColor = Color.Green;
+            map.BackColor = Color.FromArgb(81, 168, 46);
             map.Visible = false;
             map.MouseClick += map_MouseClick;
             InitializeComponent();
@@ -66,7 +66,7 @@ namespace LandscapeEditor
                 lines[i].Location = new Point(map.Location.X + cellSize * (i + 1), map.Location.Y);
                 lines[i].Height = height * cellSize;
                 lines[i].Width = lineWidth;
-                lines[i].BackColor = Color.Black;
+                lines[i].BackColor = Color.FromArgb(54, 54, 54);
                 //lines[i].Image = new Bitmap(@"..\..\Images\line1.jpg");
                 //lines[i].SizeMode = PictureBoxSizeMode.StretchImage;
                 lines[i].Visible = true;
@@ -78,7 +78,7 @@ namespace LandscapeEditor
                 lines[i].Location = new Point(map.Location.X, map.Location.Y + cellSize * (i - width + 2));
                 lines[i].Height = lineWidth;
                 lines[i].Width = width * cellSize;
-                lines[i].BackColor = Color.Black;
+                lines[i].BackColor = Color.FromArgb(54, 54, 54);
                 //lines[i].Image = new Bitmap(@"..\..\Images\line1.jpg");
                 //lines[i].SizeMode = PictureBoxSizeMode.StretchImage;
                 lines[i].Visible = true;
