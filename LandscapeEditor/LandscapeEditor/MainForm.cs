@@ -181,9 +181,10 @@ namespace LandscapeEditor
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (currentTool == null || currentTool.Image != pictureBox1.Image)
+            if (currentTool == null || !currentTool.Tag.Equals(pictureBox1.Tag))
             {
                 currentTool = new ObjectTool(pictureBox1.Image);
+                currentTool.Tag = pictureBox1.Tag;
                 this.Controls.Add(currentTool);
             }
             else
@@ -195,9 +196,10 @@ namespace LandscapeEditor
 
         private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
         {
-            if (currentTool == null || currentTool.Image != pictureBox2.Image)
+            if (currentTool == null || !currentTool.Tag.Equals(pictureBox2.Tag))
             {
                 currentTool = new BucketTool(pictureBox2.Image);
+                currentTool.Tag = pictureBox2.Tag;
                 this.Controls.Add(currentTool);
             }
             else
