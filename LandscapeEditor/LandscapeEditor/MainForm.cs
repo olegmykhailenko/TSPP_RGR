@@ -54,8 +54,6 @@ namespace LandscapeEditor
         {
             currentTool = null;
             map.Controls.Clear();
-            //map.Image = new Bitmap(@"..\..\Images\texture1.jpg");
-            //map.SizeMode = PictureBoxSizeMode.StretchImage;
             map.Size = new Size(width * cellSize, height * cellSize);
             map.Visible = true;
             PictureBox[] lines = new PictureBox[width + height - 2];
@@ -63,24 +61,21 @@ namespace LandscapeEditor
             for(int i = 0; i < width - 1; i++)
             {
                 lines[i] = new PictureBox();
-                lines[i].Location = new Point(map.Location.X + cellSize * (i + 1), map.Location.Y);
+                map.Controls.Add(lines[i]);
+                lines[i].Location = new Point(cellSize * (i + 1), 0);
                 lines[i].Height = height * cellSize;
                 lines[i].Width = lineWidth;
                 lines[i].BackColor = Color.FromArgb(54, 54, 54);
-                //lines[i].Image = new Bitmap(@"..\..\Images\line1.jpg");
-                //lines[i].SizeMode = PictureBoxSizeMode.StretchImage;
                 lines[i].Visible = true;
-                map.Controls.Add(lines[i]);
             }
             for (int i = width - 1; i < width + height - 2; i++)
             {
                 lines[i] = new PictureBox();
-                lines[i].Location = new Point(map.Location.X, map.Location.Y + cellSize * (i - width + 2));
+                map.Controls.Add(lines[i]);
+                lines[i].Location = new Point(0, cellSize * (i - width + 2));
                 lines[i].Height = lineWidth;
                 lines[i].Width = width * cellSize;
                 lines[i].BackColor = Color.FromArgb(54, 54, 54);
-                //lines[i].Image = new Bitmap(@"..\..\Images\line1.jpg");
-                //lines[i].SizeMode = PictureBoxSizeMode.StretchImage;
                 lines[i].Visible = true;
                 map.Controls.Add(lines[i]);
             }
@@ -120,6 +115,17 @@ namespace LandscapeEditor
             label1.Location = new Point(Convert.ToInt32(Math.Ceiling(this.Width - 0.04 * this.Width - label1.Width)), label1.Location.Y);
         }
 
+        public void setCursor(Cursor newCursor)
+        {
+            if (this.isContainMap())
+            {
+                map.Cursor = newCursor;
+                foreach(Control control in map.Controls)
+                {
+                    control.Cursor = newCursor;
+                }
+            }
+        }
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTool = null;
@@ -186,11 +192,13 @@ namespace LandscapeEditor
                 currentTool = new ObjectTool(pictureBox1.Image);
                 currentTool.Tag = pictureBox1.Tag;
                 this.Controls.Add(currentTool);
+                this.setCursor(new Cursor( @"..\..\Images\tree1.cur"));
             }
             else
             {
                 currentTool.Dispose();
                 currentTool = null;
+                this.setCursor(Cursors.Default);
             }
         }
 
@@ -201,11 +209,13 @@ namespace LandscapeEditor
                 currentTool = new BucketTool(pictureBox2.Image);
                 currentTool.Tag = pictureBox2.Tag;
                 this.Controls.Add(currentTool);
+                this.setCursor(new Cursor(@"..\..\Images\paint_bucket.cur"));
             }
             else
             {
                 currentTool.Dispose();
                 currentTool = null;
+                this.setCursor(Cursors.Default);
             }
 
         }

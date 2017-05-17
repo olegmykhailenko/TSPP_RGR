@@ -18,6 +18,7 @@ namespace LandscapeEditor
             this.Width = Cursor.Size.Width;
             this.Height = Cursor.Size.Height;
             this.Location = Cursor.Position;
+            this.Visible = false;
             chooseColor();
         }
 

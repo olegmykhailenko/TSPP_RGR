@@ -25,6 +25,7 @@ namespace LandscapeEditor
             this.SizeMode = PictureBoxSizeMode.StretchImage;
             this.Width = Cursor.Size.Width;
             this.Height = Cursor.Size.Height;
+            this.Visible = false;
             this.Location = Cursor.Position;
         }
 
