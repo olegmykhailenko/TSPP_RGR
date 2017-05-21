@@ -8,10 +8,10 @@ using System.Drawing;
 
 namespace LandscapeEditor
 {
-    class Tool : PictureBox //Control
+    class ObjectTool : AbstractTool //Control
     {
         //PictureBox toolImage;
-        public Tool(Image image)
+        public ObjectTool(Image image)
         {
             //toolImage = new PictureBox();
             //toolImage.Image = new Bitmap(image);
@@ -25,10 +25,11 @@ namespace LandscapeEditor
             this.SizeMode = PictureBoxSizeMode.StretchImage;
             this.Width = Cursor.Size.Width;
             this.Height = Cursor.Size.Height;
+            this.Visible = false;
             this.Location = Cursor.Position;
         }
 
-        public Control createObject()
+        public override Control FactoryMethod()
         {
             PictureBox newObject = new PictureBox();
             newObject.Image = this.Image;
