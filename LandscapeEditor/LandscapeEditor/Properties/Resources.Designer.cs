@@ -63,6 +63,16 @@ namespace LandscapeEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap delete_sign1600 {
+            get {
+                object obj = ResourceManager.GetObject("delete_sign1600", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap paint_bucket {
             get {
                 object obj = ResourceManager.GetObject("paint_bucket", resourceCulture);

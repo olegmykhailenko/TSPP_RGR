@@ -58,6 +58,9 @@
     <Compile Include="CustomPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DeleteTool.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Images\delete_sign1600.png" />
     <None Include="Images\paint_bucket.png" />
     <None Include="Images\tree1.png" />
     <None Include="Images\texture1.jpg" />

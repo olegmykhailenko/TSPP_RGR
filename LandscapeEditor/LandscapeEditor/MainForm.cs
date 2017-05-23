@@ -109,6 +109,29 @@ namespace LandscapeEditor
             }
         }
 
+        public void deleteMapObject(Point newPoint)
+        {
+            if (this.isContainMap())
+            {
+                newPoint = new Point(Math.Abs(map.Location.X) + newPoint.X,
+                    Math.Abs(map.Location.Y) + newPoint.Y - this.menuStrip1.Height);
+                newPoint = new Point(newPoint.X - (newPoint.X % cellSize),
+                    newPoint.Y - (newPoint.Y % cellSize));
+                foreach (CustomPictureBox c in map.Controls)
+                {
+                    if (map.Controls.GetChildIndex(c) >= numberOfLines()      
+                        && c.Location == newPoint)                     
+                    {
+
+                        if (c.Image == null)    
+                            c.Dispose();          
+                        else
+                            c.Image = null;                                    
+                    }
+                }
+            }
+        }
+
         public void setUser(string name)
         {
             label1.Text = name;
@@ -211,7 +234,12 @@ namespace LandscapeEditor
         {
             if (currentTool !=  null)
             {
-                this.createNewMapObject(currentTool.FactoryMethod(), this.PointToClient(Cursor.Position));
+                if((string)currentTool.Tag == "DeleteTool")
+                {
+                    deleteMapObject(this.PointToClient(Cursor.Position));
+                }
+                else
+                    this.createNewMapObject(currentTool.FactoryMethod(), this.PointToClient(Cursor.Position));
             }
         }
 
@@ -248,6 +276,23 @@ namespace LandscapeEditor
                 this.setCursor(Cursors.Default);
             }
 
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            if (currentTool == null || !currentTool.Tag.Equals(pictureBox4.Tag))
+            {
+                currentTool = new DeleteTool();
+                currentTool.Tag = pictureBox4.Tag;
+                this.Controls.Add(currentTool);
+                this.setCursor(new Cursor(@"..\..\Images\delete.cur"));
+            }
+            else
+            {
+                currentTool.Dispose();
+                currentTool = null;
+                this.setCursor(Cursors.Default);
+            }
         }
     }
 }
