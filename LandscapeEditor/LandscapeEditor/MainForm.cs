@@ -56,11 +56,11 @@ namespace LandscapeEditor
             map.Controls.Clear();
             map.Size = new Size(width * cellSize, height * cellSize);
             map.Visible = true;
-            CustomPictureBox[] lines = new CustomPictureBox[width + height - 2];
+            PictureBox[] lines = new PictureBox[width + height - 2];
             
             for(int i = 0; i < width - 1; i++)
             {
-                lines[i] = new CustomPictureBox();
+                lines[i] = new PictureBox();
                 map.Controls.Add(lines[i]);
                 lines[i].Location = new Point(cellSize * (i + 1), 0);
                 lines[i].Height = height * cellSize;
@@ -70,7 +70,7 @@ namespace LandscapeEditor
             }
             for (int i = width - 1; i < width + height - 2; i++)
             {
-                lines[i] = new CustomPictureBox();
+                lines[i] = new PictureBox();
                 map.Controls.Add(lines[i]);
                 lines[i].Location = new Point(0, cellSize * (i - width + 2));
                 lines[i].Height = lineWidth;
@@ -117,7 +117,7 @@ namespace LandscapeEditor
                     Math.Abs(map.Location.Y) + newPoint.Y - this.menuStrip1.Height);
                 newPoint = new Point(newPoint.X - (newPoint.X % cellSize),
                     newPoint.Y - (newPoint.Y % cellSize));
-                foreach (CustomPictureBox c in map.Controls)
+                foreach (PictureBox c in map.Controls)
                 {
                     if (map.Controls.GetChildIndex(c) >= numberOfLines()      
                         && c.Location == newPoint)                     
@@ -184,7 +184,13 @@ namespace LandscapeEditor
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 try
                 {
-                    map = (Map)formatter.Deserialize(fl);
+                    map.Controls.Clear();
+                    ((SerializableMap)formatter.Deserialize(fl)).restore(map);
+                    foreach(Control current in map.Controls)
+                    {
+                        current.MouseClick += map_MouseClick;
+                    }
+                    map.Visible = true;
                 }
                 catch (System.Runtime.Serialization.SerializationException ex)
                 {
@@ -211,7 +217,7 @@ namespace LandscapeEditor
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 try
                 {
-                    formatter.Serialize(fl, this.map);
+                    formatter.Serialize(fl, new SerializableMap(map));
                 }
                 catch (System.Runtime.Serialization.SerializationException ex)
                 {

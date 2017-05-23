@@ -13,7 +13,7 @@ namespace LandscapeEditor
 
         public override Control FactoryMethod()
         {
-            CustomPictureBox newObject = new CustomPictureBox();
+            PictureBox newObject = new PictureBox();
             newObject.Image = this.Image;
             newObject.SizeMode = PictureBoxSizeMode.StretchImage;
             newObject.BackColor = Color.Transparent;

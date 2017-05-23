@@ -9,34 +9,40 @@ using System.Drawing;
 namespace LandscapeEditor
 {
     [Serializable]
-    class CustomPictureBox 
+    class SerializableMap
     {
         int Width { get; set; }
         int Height { get; set; }
         Point Location { get; set; }
         Image Image { get; set; }
         Color BackColor { get; set; }
-        PictureBoxSizeMode SizeMode { get; set; }
+        List<CustomPictureBox> Controls { get; set; }
 
-        public PictureBox restore()
+        public void restore(Map e)
         {
-            PictureBox e = new PictureBox();
             e.Width = Width;
             e.Height = Height;
             e.Location = Location;
             e.Image = Image;
             e.BackColor = BackColor;
-            e.SizeMode = SizeMode;
-            return e;
+            foreach(CustomPictureBox current in Controls)
+            {
+                e.Controls.Add(current.restore());
+            }
         }
-        public CustomPictureBox(PictureBox e)
+
+        public SerializableMap(Map e)
         {
             Width = e.Width;
             Height = e.Height;
             Location = e.Location;
             Image = e.Image;
             BackColor = e.BackColor;
-            SizeMode = e.SizeMode;
+            Controls = new List<CustomPictureBox>();
+            foreach(Control current in e.Controls)
+            {
+                Controls.Add(new CustomPictureBox((PictureBox)current));
+            }
         }
     }
 }

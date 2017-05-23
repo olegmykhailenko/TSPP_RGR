@@ -55,9 +55,7 @@
     <Compile Include="BucketTool.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomPictureBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="CustomPictureBox.cs" />
     <Compile Include="DeleteTool.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -78,6 +76,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializableMap.cs" />
     <Compile Include="SignInForm.cs">
       <SubType>Form</SubType>
     </Compile>

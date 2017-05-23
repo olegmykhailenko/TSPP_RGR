@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace LandscapeEditor
 {
-    [Serializable]
+    //[Serializable]
     class Map : PictureBox
     {
         private static Map instance;
