@@ -56,11 +56,11 @@ namespace LandscapeEditor
             map.Controls.Clear();
             map.Size = new Size(width * cellSize, height * cellSize);
             map.Visible = true;
-            PictureBox[] lines = new PictureBox[width + height - 2];
+            CustomPictureBox[] lines = new CustomPictureBox[width + height - 2];
             
             for(int i = 0; i < width - 1; i++)
             {
-                lines[i] = new PictureBox();
+                lines[i] = new CustomPictureBox();
                 map.Controls.Add(lines[i]);
                 lines[i].Location = new Point(cellSize * (i + 1), 0);
                 lines[i].Height = height * cellSize;
@@ -70,7 +70,7 @@ namespace LandscapeEditor
             }
             for (int i = width - 1; i < width + height - 2; i++)
             {
-                lines[i] = new PictureBox();
+                lines[i] = new CustomPictureBox();
                 map.Controls.Add(lines[i]);
                 lines[i].Location = new Point(0, cellSize * (i - width + 2));
                 lines[i].Height = lineWidth;
@@ -156,7 +156,22 @@ namespace LandscapeEditor
             openFileDialog.Filter = "Landscape Designer Files (*.ld)|*.ld|All Files (*.*)|*.*";
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                string FileName = openFileDialog.FileName;
+                string fileName = openFileDialog.FileName;
+                System.IO.FileStream fl = new System.IO.FileStream(fileName, System.IO.FileMode.Open);
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                try
+                {
+                    map = (Map)formatter.Deserialize(fl);
+                }
+                catch (System.Runtime.Serialization.SerializationException ex)
+                {
+                    MessageBox.Show("Failed to serialize. Reason: " + ex.Message);
+                    //throw;
+                }
+                finally
+                {
+                    fl.Close();
+                }
             }
         }
 
@@ -168,7 +183,22 @@ namespace LandscapeEditor
             saveFileDialog.Filter = "Landscape Designer Files (*.ld)|*.ld|All Files (*.*)|*.*";
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                string FileName = saveFileDialog.FileName;
+                string fileName = saveFileDialog.FileName;
+                System.IO.FileStream fl = new System.IO.FileStream(fileName, System.IO.FileMode.Create);
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                try
+                {
+                    formatter.Serialize(fl, this.map);
+                }
+                catch (System.Runtime.Serialization.SerializationException ex)
+                {
+                    MessageBox.Show("Failed to serialize. Reason: " + ex.Message);
+                    //throw;
+                }
+                finally
+                {
+                    fl.Close();
+                }
             }
         }
 

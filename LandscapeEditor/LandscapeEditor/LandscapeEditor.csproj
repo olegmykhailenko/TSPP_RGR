@@ -55,6 +55,9 @@
     <Compile Include="BucketTool.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -34,7 +34,7 @@ namespace LandscapeEditor
         }
         public override Control FactoryMethod()
         {
-            PictureBox newObject = new PictureBox();
+            CustomPictureBox newObject = new CustomPictureBox();
             newObject.BackColor = currentColor;
             return newObject;
         }
