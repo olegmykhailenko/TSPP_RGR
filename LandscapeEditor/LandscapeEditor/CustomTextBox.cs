@@ -9,34 +9,31 @@ using System.Drawing;
 namespace LandscapeEditor
 {
     [Serializable]
-    class CustomPictureBox : CustomControl
+    class CustomTextBox : CustomControl
     {
         int Width { get; set; }
         int Height { get; set; }
         Point Location { get; set; }
-        Image Image { get; set; }
         Color BackColor { get; set; }
-        PictureBoxSizeMode SizeMode { get; set; }
+        string Text { get; set; }
 
         override public Control restore()
         {
-            PictureBox e = new PictureBox();
+            TextBox e = new TextBox();
             e.Width = Width;
             e.Height = Height;
             e.Location = Location;
-            e.Image = Image;
             e.BackColor = BackColor;
-            e.SizeMode = SizeMode;
+            e.Text = Text;
             return e;
         }
-        public CustomPictureBox(PictureBox e)
+        public CustomTextBox(TextBox e)
         {
             Width = e.Width;
             Height = e.Height;
             Location = e.Location;
-            Image = e.Image;
             BackColor = e.BackColor;
-            SizeMode = e.SizeMode;
+            Text = e.Text;
         }
     }
 }

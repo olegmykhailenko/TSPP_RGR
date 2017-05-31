@@ -55,7 +55,9 @@
     <Compile Include="BucketTool.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomControl.cs" />
     <Compile Include="CustomPictureBox.cs" />
+    <Compile Include="CustomTextBox.cs" />
     <Compile Include="DeleteTool.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -92,6 +94,9 @@
     <Compile Include="ObjectTool.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TextTool.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -114,6 +119,7 @@
     <EmbeddedResource Include="SignUpForm.resx">
       <DependentUpon>SignUpForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -132,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Images\text.png" />
     <None Include="Images\delete_sign1600.png" />
     <None Include="Images\paint_bucket.png" />
     <None Include="Images\tree1.png" />

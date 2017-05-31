@@ -16,7 +16,7 @@ namespace LandscapeEditor
         Point Location { get; set; }
         Image Image { get; set; }
         Color BackColor { get; set; }
-        List<CustomPictureBox> Controls { get; set; }
+        List<CustomControl> Controls { get; set; }
 
         public void restore(Map e)
         {
@@ -25,7 +25,7 @@ namespace LandscapeEditor
             e.Location = Location;
             e.Image = Image;
             e.BackColor = BackColor;
-            foreach(CustomPictureBox current in Controls)
+            foreach(CustomControl current in Controls)
             {
                 e.Controls.Add(current.restore());
             }
@@ -38,10 +38,13 @@ namespace LandscapeEditor
             Location = e.Location;
             Image = e.Image;
             BackColor = e.BackColor;
-            Controls = new List<CustomPictureBox>();
+            Controls = new List<CustomControl>();
             foreach(Control current in e.Controls)
             {
-                Controls.Add(new CustomPictureBox((PictureBox)current));
+                if(e.Controls.GetChildIndex(current) >= e.numberOfText)
+                    Controls.Add(new CustomPictureBox((PictureBox)current));
+                else
+                    Controls.Add(new CustomTextBox((TextBox)current));
             }
         }
     }

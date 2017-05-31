@@ -54,6 +54,7 @@ namespace LandscapeEditor
         {
             currentTool = null;
             map.Controls.Clear();
+            map.numberOfText = 0;
             map.Size = new Size(width * cellSize, height * cellSize);
             map.Visible = true;
             PictureBox[] lines = new PictureBox[width + height - 2];
@@ -95,17 +96,31 @@ namespace LandscapeEditor
                 map.Controls.Add(newObject);
                 foreach (Control c in map.Controls)
                 {
-                    if (map.Controls.GetChildIndex(c) >= numberOfLines()        //lines always on the top
+                    if (map.Controls.GetChildIndex(c) >= numberOfLines() + map.numberOfText       //lines always on the top
                         && c.Location == newObject.Location                     //objects have same location
                         && map.Controls.GetChildIndex(c) != map.Controls.GetChildIndex(newObject))  //objects are not the same
                     {
                         if(newObject.BackColor == Color.Transparent)    //if new object has no backcolor
                             newObject.BackColor = c.BackColor;          //copy it from previous object
                         c.Dispose();                                    //and delete previous object
-
                         
                     }
                 }
+            }
+        }
+
+        public void createNewTextObject(Control newObject, Point newPoint)
+        {
+            if (this.isContainMap())
+            {
+                newObject.Location = new Point(Math.Abs(map.Location.X) + newPoint.X,
+                    Math.Abs(map.Location.Y) + newPoint.Y - this.menuStrip1.Height);
+                
+                map.Controls.Add(newObject);
+                newObject.TextChanged += textBox_TextChanged;
+                map.Controls.SetChildIndex(newObject, 0);
+                map.numberOfText++;
+                
             }
         }
 
@@ -117,16 +132,16 @@ namespace LandscapeEditor
                     Math.Abs(map.Location.Y) + newPoint.Y - this.menuStrip1.Height);
                 newPoint = new Point(newPoint.X - (newPoint.X % cellSize),
                     newPoint.Y - (newPoint.Y % cellSize));
-                foreach (PictureBox c in map.Controls)
+                foreach (Control c in map.Controls)
                 {
-                    if (map.Controls.GetChildIndex(c) >= numberOfLines()      
+                    if (map.Controls.GetChildIndex(c) >= numberOfLines() + map.numberOfText     
                         && c.Location == newPoint)                     
                     {
 
-                        if (c.Image == null)    
+                        if (((PictureBox)c).Image == null)    
                             c.Dispose();          
                         else
-                            c.Image = null;                                    
+                            ((PictureBox)c).Image = null;                                    
                     }
                 }
             }
@@ -244,6 +259,10 @@ namespace LandscapeEditor
                 {
                     deleteMapObject(this.PointToClient(Cursor.Position));
                 }
+                else if ((string)currentTool.Tag == "TextTool")
+                {
+                    this.createNewTextObject(currentTool.FactoryMethod(), this.PointToClient(Cursor.Position));
+                }
                 else
                     this.createNewMapObject(currentTool.FactoryMethod(), this.PointToClient(Cursor.Position));
             }
@@ -298,6 +317,37 @@ namespace LandscapeEditor
                 currentTool.Dispose();
                 currentTool = null;
                 this.setCursor(Cursors.Default);
+            }
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            if (currentTool == null || !currentTool.Tag.Equals(pictureBox3.Tag))
+            {
+                currentTool = new TextTool();
+                currentTool.Tag = pictureBox3.Tag;
+                this.Controls.Add(currentTool);
+                this.setCursor(new Cursor(@"..\..\Images\text.cur"));
+            }
+            else
+            {
+                currentTool.Dispose();
+                currentTool = null;
+                this.setCursor(Cursors.Default);
+            }
+        }
+
+        private void textBox_TextChanged(object sender, EventArgs e)
+        {
+            Size sz = new Size(((TextBox)sender).ClientSize.Width, int.MaxValue);
+            //TextFormatFlags flags = TextFormatFlags.WordBreak;
+            //int padding = 3;
+            int borders = ((TextBox)sender).Width - ((TextBox)sender).ClientSize.Width;
+            sz = TextRenderer.MeasureText(((TextBox)sender).Text, ((TextBox)sender).Font, sz);
+            //int h = ((TextBox)sender).TextLength * sz.Width + borders + padding;
+            if (sz.Width > 100)
+            {
+                ((TextBox)sender).Width = sz.Width;
             }
         }
     }

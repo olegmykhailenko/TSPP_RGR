@@ -12,6 +12,8 @@ namespace LandscapeEditor
     class Map : PictureBox
     {
         private static Map instance;
+
+        public int numberOfText{get; set;}
         public static Map Instance
         {
             get { return instance ?? (instance = new Map()); }
