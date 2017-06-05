@@ -120,7 +120,7 @@ namespace LandscapeEditor
                 newObject.TextChanged += textBox_TextChanged;
                 map.Controls.SetChildIndex(newObject, 0);
                 map.numberOfText++;
-                
+                newObject.MouseClick += deleteTextBox;
             }
         }
 
@@ -145,6 +145,12 @@ namespace LandscapeEditor
                     }
                 }
             }
+        }
+
+        private void deleteTextBox(object sender, EventArgs e)
+        {
+            if ((string)currentTool.Tag == "DeleteTool")
+                ((TextBox)sender).Dispose();
         }
 
         public void setUser(string name)
